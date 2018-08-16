@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="UserInfo">
+	<!-- 新增用户 -->
+	<parameterMap  id="addUserParameter"  class="java.util.HashMap">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="employee_code" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="employee_name" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="employee_name_foreign" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="identity_card" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="mobilephone" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="email" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="password" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="flag" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="rtn" jdbcType="INTEGER" javaType="java.lang.Integer" mode="OUT"/>
+		<parameter property="rtn_employee_code" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	
+	<procedure id="addUserInfo" parameterMap="addUserParameter">
+		{call dbo.WPM_add_user(?,?,?,?,?,?,?,?,?,?,?,?)}
+	</procedure>
+	<!-- 修改用户 -->
+	<parameterMap  id="updateUserParameter" class="java.util.HashMap">
+		<parameter property="brnadId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="employee_code" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="employee_name" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="employee_name_foreign" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="identity_card" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="mobilephone" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="email" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="password" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="flag" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="rtn" jdbcType="INTEGER" javaType="java.lang.Integer" mode="OUT"/>
+	</parameterMap>
+	
+	<procedure id="updateUserInfo" parameterMap="updateUserParameter">
+		{call dbo.WPM_update_user(?,?,?,?,?,?,?,?,?,?,?)}
+	</procedure>
+</sqlMap>

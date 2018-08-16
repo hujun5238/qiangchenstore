@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>  						
+<!DOCTYPE sqlMapConfig   						
+PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"   						
+"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">		
+<sqlMapConfig>		
+	<settings useStatementNamespaces="true"
+	                 cacheModelsEnabled="true"     
+                     enhancementEnabled="true"     
+                     lazyLoadingEnabled="true"     
+                     errorTracingEnabled="true"     
+                     maxRequests="32"     
+                     maxSessions="10"     
+                     maxTransactions="5"  />
+
+	<sqlMap resource="com/zzz/testweb/business/dao/login.xml" />
+	<sqlMap resource="com/zzz/testweb/business/dao/MemberInfo.xml" />
+	<sqlMap resource="com/zzz/testweb/business/dao/SystemInfo.xml" />
+	<sqlMap resource="com/zzz/testweb/business/dao/UserInfo.xml"/>
+
+</sqlMapConfig>  

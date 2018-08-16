@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="MemberInfo">
+
+     
+<select id="getMenberByCode" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+<![CDATA[ 
+	select nameCn, mobilePhone, email 
+	from memberinfo
+	where code = #code#
+]]>
+</select>
+
+<!-- call procedure ex. -->
+    <!-- 会员模糊查询 -->
+    <resultMap id="memberLikeResultMap" class="java.util.HashMap">
+        <result property="memCode" column="memcode"/>
+        <result property="nameCn" column="name"/>
+        <result property="mobilePhone" column="mobilephone"/>
+        <result property="sex" column="sex"/>
+    </resultMap>
+    
+    <parameterMap id="memberLikeParameters" class="java.util.HashMap">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer"  mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+		<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+		<parameter property="mobilePhone" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+		<parameter property="nameCn" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+    </parameterMap>
+
+    <procedure id="getMemberInfoLike"  resultMap="memberLikeResultMap"  parameterMap="memberLikeParameters">	
+		{call dbo.WPM_get_members(?,?,?,?,?)}
+	</procedure>
+
+
+<!-- 会员模糊查询(修改20130319) -->
+    <resultMap id="memberLikeResultMap2" class="java.util.HashMap">
+        <result property="member_code" column="member_code"/>
+        <result property="name_cn" column="name_cn"/>
+        <result property="mobile_phone" column="mobile_phone"/>
+        <result property="sex" column="sex"/>
+    </resultMap>
+    
+    <parameterMap id="memberLikeParameters2" class="java.util.HashMap">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer"  mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+		<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+		<parameter property="mobilePhone" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+		<parameter property="nameCn" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+		<parameter property="birthday" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+    </parameterMap>
+
+    <procedure id="getMemberInfoLike2"  resultMap="memberLikeResultMap2"  parameterMap="memberLikeParameters2">	
+		{call dbo.WPM_get_members2(?,?,?,?,?,?)}
+	</procedure>
+
+
+    <!-- 会员信息查询 -->
+    <resultMap id="memberResultMap" class="java.util.HashMap">
+        <result property="memCode" column="memcode"/>
+        <result property="nameCn" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="telePhone" column="telephone"/>
+        <result property="mobilePhone" column="mobilephone"/>
+        <result property="birthday" column="birthday"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="mail" column="mail"/>
+        <result property="zip" column="zip"/>
+        <result property="address" column="address"/>
+    </resultMap>
+    
+    <parameterMap id="memberParameters" class="java.util.Map">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer"   mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+		<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+		<parameter property="mobilePhone" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+    </parameterMap>
+
+    <procedure id="getMemberInfo"  resultMap="memberResultMap"  parameterMap="memberParameters">	
+		{call dbo.WPM_get_member_info(?,?,?,?)}
+	</procedure>
+	
+	
+	<!--会员信息查询(修改20140319)  -->
+	 <resultMap id="memberResultMap2" class="java.util.HashMap">
+	        <result property="member_code" column="member_code"/>
+	        <result property="name_cn" column="name_cn"/>
+	        <result property="sex" column="sex"/>
+	        <result property="telephone" column="telephone"/>
+	        <result property="mobile_phone" column="mobile_phone"/>
+	        <result property="birthday" column="birthday"/>
+	        <result property="province" column="province"/>
+	        <result property="city" column="city"/>
+	        <result property="mail" column="mail"/>
+	        <result property="zip" column="zip"/>
+	        <result property="address" column="address"/>
+	        <result property="counter_code_first" column="counter_code_first"/>
+	        <result property="counter_code" column="counter_code"/>
+	        <result property="birthday_year" column="birthday_year"/>
+	        <result property="birthday_month_day" column="birthday_month_day"/>
+	    </resultMap>
+	    
+	    <parameterMap id="memberParameters2" class="java.util.Map">
+			<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer"   mode="IN"/>
+			<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+			<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+			<parameter property="mobilePhone" jdbcType="VARCHAR" javaType="java.lang.String"  mode="IN"/>
+	    </parameterMap>
+	
+	    <procedure id="getMemberInfo2"  resultMap="memberResultMap2"  parameterMap="memberParameters2">	
+			{call dbo.WPM_get_member_info2(?,?,?,?)}
+		</procedure>
+	
+
+    <!-- 新增会员 -->
+    <parameterMap id="memberParameters" class="java.util.Map">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="telephone" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="mobilephone" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="sex" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="province" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="city" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="address" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="zip" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="birthday" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="mail" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="grantTime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="baCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="flag" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="putTime" jdbcType="date" javaType="java.lang.String" mode="IN"/>
+		<parameter property="modifyTime" jdbcType="date" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakInt1" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="bakInt2" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="bakInt3" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="bakInt4" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="bakChar1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar2" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar3" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar4" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar5" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar6" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar7" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar8" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar9" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar10" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="modifyFlag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="curMemberLevelCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="grantMemberLevelCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="upgradeFromLevelCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="upgradeCounter" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="upgradeBA" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="upgradeDateTime" jdbcType="date" javaType="java.lang.String" mode="IN"/>
+		<parameter property="nextLevelNeedAddPoints" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar2" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar3" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar4" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar5" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar6" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar7" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar8" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar9" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar10" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="activateTime" jdbcType="date" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakVarchar1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakVarchar2" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakVarchar3" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakVarchar4" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakVarchar5" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="rtnStatus" jdbcType="INTEGER" javaType="java.lang.Integer" mode="OUT"/>
+    </parameterMap>
+    
+    <procedure id="newMemberInfo"  parameterMap="memberParameters">	
+		{call dbo.WPM_add_member(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}
+	</procedure>
+	
+	<!-- 修改会员 -->
+    <parameterMap id="memberParameters" class="java.util.Map">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="telephone" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="mobilephone" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="sex" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="province" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="city" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="address" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="zip" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="birthday" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="mail" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="grantTime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="baCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="flag" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="putTime" jdbcType="date" javaType="java.lang.String" mode="IN"/>
+		<parameter property="modifyTime" jdbcType="date" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakInt1" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="bakInt2" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="bakInt3" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="bakInt4" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="bakChar1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar2" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar3" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar4" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar5" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar6" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar7" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar8" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar9" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakChar10" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="modifyFlag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="curMemberLevelCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="grantMemberLevelCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="upgradeFromLevelCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="upgradeCounter" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="upgradeBA" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="upgradeDateTime" jdbcType="date" javaType="java.lang.String" mode="IN"/>
+		<parameter property="nextLevelNeedAddPoints" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar2" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar3" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar4" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar5" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar6" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar7" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar8" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar9" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="newBakChar10" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="activateTime" jdbcType="date" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakVarchar1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakVarchar2" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakVarchar3" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakVarchar4" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="bakVarchar5" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="rtnStatus" jdbcType="INTEGER" javaType="java.lang.Integer" mode="OUT"/>
+    </parameterMap>
+
+    <procedure id="updateMemberInfo"   parameterMap="memberParameters">	
+	{call dbo.WPM_update_member(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}
+	</procedure>
+	
+	
+	<!-- 会员积分查询 
+    <resultMap id="memberResultMap" class="java.util.HashMap">
+        <result property="memCode" column="memcode"/>
+        <result property="mobilePhone" column="mobilephone"/>
+        <result property="grantTime" column="grant_time"/>
+        <result property="baCode" column="bacode"/>
+        <result property="sex" column="sex"/>
+        <result property="flag" column="flag"/>
+        <result property="version" column="version"/>
+        <result property="counterName" column="countername"/>
+        <result property="curMemberLevelCode" column="CurMemberLevelCode"/>
+        <result property="curPoints" column="curpoints"/>
+    </resultMap>
+    
+    <parameterMap id="memberParameters" class="java.util.Map">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="mobilePhone" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    </parameterMap>
+
+    <procedure id="getMemberPoint"  resultMap="memberResultMap"  parameterMap="memberParameters">	
+		{call dbo.WPM_get_member_point(?,?,?,?)}
+	</procedure>
+	-->
+	<!-- 会员积分查询(修改20140319)
+    <resultMap id="memberResultMap2" class="java.util.HashMap">
+        <result property="member_code" column="member_code"/>
+        <result property="mobile_phone" column="mobile_phone"/>
+        <result property="grant_time" column="grant_time"/>
+        <result property="employee_code" column="employee_code"/>
+        <result property="sex" column="sex"/>
+        <result property="flag" column="flag"/>
+        <result property="version" column="version"/>
+        <result property="countername" column="countername"/>
+        <result property="cur_member_level" column="cur_member_level"/>
+        <result property="curpoints" column="curpoints"/>
+    </resultMap>
+    
+    <parameterMap id="memberParameters2" class="java.util.Map">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memMobile" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    </parameterMap>
+
+    <procedure id="getMemberPoint2"  resultMap="memberResultMap2"  parameterMap="memberParameters2">	
+		{call dbo.WPM_get_member_point2(?,?,?,?)}
+	</procedure>
+	
+	 -->
+	
+	
+	
+	<!-- 会员最近消费（或历史）查询 -->
+    <resultMap id="memberResultMap" class="java.util.HashMap">
+        <result property="memCode" column="memcode"/>
+        <result property="nameCn" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="birthday" column="birthday"/>
+        <result property="grantTime" column="grant_time"/>
+        <result property="counterName" column="countername"/>
+        <result property="curMemberLevelCode" column="CurMemberLevelCode"/>
+        <result property="curPoints" column="curpoints"/>
+		<result property="totalAmount" column="total_amount"/>
+        <result property="lastSaleAmount" column="last_sale_amount"/>
+        <result property="lastSaleTime" column="last_sale_time"/>
+    </resultMap>
+    
+    <parameterMap id="memberParameters" class="java.util.Map">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="mobilePhone" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    </parameterMap>
+
+    <procedure id="getMemberLastSaleDetail"  resultMap="memberResultMap"  parameterMap="memberParameters">	
+		{call dbo.[WPM_get_member_last_sale](?,?,?,?)}
+	</procedure>
+	
+	
+	<!-- 会员最近消费（或历史）查询(修改20140319)-->
+    <resultMap id="memberResultMap2" class="java.util.HashMap">
+        <result property="member_code" column="member_code"/>
+        <result property="name_cn" column="name_cn"/>
+        <result property="sex" column="sex"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="birthday" column="birthday"/>
+        <result property="grant_time" column="grant_time"/>
+        <result property="countername" column="countername"/>
+        <result property="cur_member_level" column="cur_member_level"/>
+        <result property="curpoints" column="curpoints"/>
+		<result property="total_amount" column="total_amount"/>
+        <result property="last_sale_amount" column="last_sale_amount"/>
+        <result property="last_sale_time" column="last_sale_time"/>
+    </resultMap>
+    
+    <parameterMap id="memberParameters2" class="java.util.Map">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="mobilePhone" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    </parameterMap>
+
+    <procedure id="getMemberLastSaleDetail2"  resultMap="memberResultMap2"  parameterMap="memberParameters2">	
+		{call dbo.[WPM_get_member_last_sale2](?,?,?,?)}
+	</procedure>
+	
+	
+	
+	<!-- 会员唯一性检查 -->	
+    <parameterMap id="checkCodeMobileParameters" class="java.util.Map">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="mobilePhone" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="count" jdbcType="INTEGER" javaType="java.lang.Integer" mode="OUT"/>
+    </parameterMap>
+
+    <procedure id="checkMemberCodeMobile"  parameterMap="checkCodeMobileParameters">	
+		{call dbo.WPM_check_memberCode_memberMobile(?,?,?,?,?)}
+	</procedure>	
+	
+	<!-- 会员唯一性检查 -->	
+    <parameterMap id="checkMemberInfoSecretParameters" class="java.util.Map">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memInfoSecret" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+    </parameterMap>
+
+    <procedure id="checkMemberInfoSecret"  parameterMap="checkMemberInfoSecretParameters">	
+		{call dbo.WPM_check_memberInfo_secret(?,?,?)}
+	</procedure>	
+	
+
+    <!-- Test -->
+    <resultMap id="memberResultMap" class="java.util.HashMap">
+        <result property="id" column="id"/>
+        <result property="memCode" column="member_code"/>
+        <result property="nameCn" column="name_cn"/>
+        <result property="mobilePhone" column="mobile_phone"/>
+        <result property="city" column="city"/>
+        <result property="grantTime" column="grant_time"/>
+        <result property="counterCode" column="countercode"/>
+        <result property="counterName" column="countername"/>
+        <result property="curMemberLevelCode" column="CurMemberLevelCode"/>
+        <result property="code" column="code"/>
+        <result property="curPoints" column="curpoints"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="birthday" column="birthday"/>
+        <result property="bakVarchar1" column="bak_varchar1"/>
+        <result property="flag" column="flag"/>
+    </resultMap>
+    
+    <parameterMap id="memberParameters" class="java.util.Map">
+		<parameter property="counts" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memName" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memMobile" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memTel" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memBirthday" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    </parameterMap>
+
+    <procedure id="getCityInfo"  resultMap="memberResultMap"  parameterMap="memberParameters">	
+		{call dbo.WP3PCSB_P_get_member_info_query5(?,?,?,?,?,?)}
+	</procedure>
+
+	<select id="getXXXTESTXXCityInfo" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	<![CDATA[ 
+		select
+			A.CityName_CH
+		from 
+			dbo.City A 
+		where
+				A.CityCode =#cityCode#
+	]]>
+	</select>
+	
+	
+	<!--  获取会员生日礼品是否领用-->
+	<resultMap id="memBirthGiftResultMap" class="java.util.HashMap">
+        <result property="memcode" column="memcode"/>
+        <result property="name" column="name"/>
+        <result property="granttime" column="granttime"/>
+        <result property="birthday" column="birthday"/>
+        <result property="mobilephone" column="mobilephone"/>
+    </resultMap>
+    
+    <parameterMap id="memBirthGiftParameters" class="java.util.Map">
+		<parameter property="year" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="month" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="flag" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    </parameterMap>
+
+    <procedure id="getMemBirthGift"  resultMap="memBirthGiftResultMap"  parameterMap="memBirthGiftParameters">	
+		{call dbo.WPM_memBirth_gift(?,?,?,?)}
+	</procedure>
+	
+	<!-- 根据品牌ID，获取配置项信息 -->
+<resultMap id="reportMemberPointConfig2ResultMap" class="java.util.HashMap">
+ 	<result property="memAct" column="memAct"/>
+</resultMap>
+ 
+ <parameterMap id="reportMemberPointConfig2Paramter" class="java.util.HashMap" >
+	<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+</parameterMap>
+ 
+<procedure id="getReportMemberPointConfig2" parameterMap="reportMemberPointConfig2Paramter"  resultMap="reportMemberPointConfig2ResultMap">
+	{call dbo.WPM_Report_Member_point_config2(?) }
+</procedure>
+
+
+<!-- 根据会员卡号，会员名称，会员手机，会员生日查询会员的基本信息-->
+<resultMap id="reportMemberReportInfoByType6ResultMap" class="java.util.HashMap">
+ 	<result property="memStatus" column="memStatus"/>
+ 	<result property="member_code" column="member_code"/>
+ 	<result property="name_cn" column="name_cn"/>
+ 	<result property="name_en" column="name_en"/>
+ 	<result property="telephone" column="telephone"/>
+ 	<result property="mobile_phone" column="mobile_phone"/>
+ 	<result property="sex" column="sex"/>
+ 	<result property="province" column="province"/>
+ 	<result property="city" column="city"/>
+ 	<result property="address" column="address"/>
+ 	<result property="zip" column="zip"/>
+ 	<result property="birthday" column="birthday"/>
+ 	<result property="mail" column="mail"/>
+ 	<result property="grant_time" column="grant_time"/>
+ 	<result property="countercode" column="countercode"/>
+ 	<result property="countername" column="countername"/>
+ 	<result property="memberLevelCode" column="memberLevelCode"/>
+ 	<result property="grant_time" column="grant_time"/>
+ 	<result property="code_name_cn" column="code_name_cn"/>
+ 	<result property="memValid" column="memValid"/>
+ 	<result property="bak_char5" column="Bak_char5"/>
+ 	<result property="remark" column="remark"/>
+ 	<result property="showmode" column="showmode"/>
+</resultMap>
+ 
+ <parameterMap id="reportMemberReportInfoByType6Paramter" class="java.util.HashMap" >
+	<parameter property="counts" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="memName" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="mobilePhone" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="memBirth" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="brandCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+</parameterMap>
+ 
+<procedure id="getReportMemberReportInfoByType6" parameterMap="reportMemberReportInfoByType6Paramter"  resultMap="reportMemberReportInfoByType6ResultMap">
+	{call dbo.WPM_Report_memberReport_info_by_type6(?,?,?,?,?,?) }
+</procedure>
+
+<!--   没有激活的情况下调用存储过程      根据会员卡号，会员名称，会员手机，会员生日查询会员的基本信息-->
+<procedure id="getReportMemberReportInfoByType5" parameterMap="reportMemberReportInfoByType6Paramter"  resultMap="reportMemberReportInfoByType6ResultMap">
+	{call dbo.WPM_Report_memberReport_info_by_type5(?,?,?,?,?,?) }
+</procedure>
+
+<!-- 查询会员回答过的问卷 -->
+<resultMap id="reportMemberReportMemPaperResultMap" class="java.util.HashMap">
+ 	<result property="questionid" column="questionid"/>
+ 	<result property="answer" column="answer"/>
+ 	<result property="questionitem" column="questionitem"/>
+ 	<result property="questionType" column="questionType"/>
+ 	<result property="submitTime" column="submitTime"/>
+ 	<result property="questionChoices" column="questionChoices"/>
+</resultMap>
+ 
+ <parameterMap id="reportMemberReportMemPaperParamter" class="java.util.HashMap" >
+	<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+</parameterMap>
+ 
+<procedure id="getReportMemberReportMemPaper" parameterMap="reportMemberReportMemPaperParamter"  resultMap="reportMemberReportMemPaperResultMap">
+	{call dbo.WPM_Report_memberReport_memPaper(?) }
+</procedure>
+
+<!-- 查询会员的当前有效积分 -->
+<resultMap id="reportMemberCurpointsResultMap" class="java.util.HashMap">
+ 	<result property="curpoints" column="curpoints"/>
+ 	<result property="isShow" column="isShow"/>
+ 	<result property="vilidPoints" column="vilidPoints"/>
+ 	<result property="runOutDay" column="runOutDay"/>
+ 	<result property="memberStaus" column="memberStaus"/>
+</resultMap>
+ 
+ <parameterMap id="reportMemberCurpointsParamter" class="java.util.HashMap" >
+	<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="quantity" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+	<parameter property="pointUseType" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="txdDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="checkMCodeBelongToCounter" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="bufferDate" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+</parameterMap>
+ 
+<procedure id="getReportMemberCurpoints" parameterMap="reportMemberCurpointsParamter"  resultMap="reportMemberCurpointsResultMap">
+	{call dbo.WPM_Report_member_curpoints(?,?,?,?,?,?,?) }
+</procedure>
+
+<!-- 获取礼券使用列表 -->
+<resultMap id="reportMemberReportCouponMainResultMap" class="java.util.HashMap">
+ 	<result property="price" column="price"/>
+ 	<result property="quantity" column="quantity"/>
+ 	<result property="banameMax" column="banameMax"/>
+ 	<result property="counterCode" column="counterCode"/>
+ 	<result property="param" column="param"/>
+ 	<result property="memname" column="memname"/>
+ 	<result property="datetimes" column="datetimes"/>
+</resultMap>
+ 
+ <parameterMap id="reportMemberReportCouponMainParamter" class="java.util.HashMap" >
+	<parameter property="startTime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="endTime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="baCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="mobile" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+</parameterMap>
+ 
+<procedure id="getReportMemberReportCouponMain" parameterMap="reportMemberReportCouponMainParamter"  resultMap="reportMemberReportCouponMainResultMap">
+	{call dbo.WPM_Report_MemberReport_couponMain(?,?,?,?,?,?,?) }
+</procedure>
+<!-- 获取礼券使用列表,明细数据  -->
+<resultMap id="reportMemberReportCouponDetailResultMap" class="java.util.HashMap">
+ 	<result property="barcode" column="barcode"/>
+ 	<result property="unitcode" column="unitcode"/>
+ 	<result property="chinesename" column="chinesename"/>
+ 	<result property="normalPrice" column="normalPrice"/>
+ 	<result property="price" column="price"/>
+ 	<result property="quantity" column="quantity"/>
+ 	<result property="baname" column="baname"/>
+ 	<result property="producttype" column="producttype"/>
+ 	<result property="param" column="param"/>
+ 	<result property="bacode" column="bacode"/>
+ 	<result property="exchangetime" column="exchangetime"/>
+</resultMap>
+
+<procedure id="getReportMemberReportCouponDetail" parameterMap="reportMemberReportCouponMainParamter"  resultMap="reportMemberReportCouponDetailResultMap">
+	{call dbo.WPM_Report_MemberReport_couponDetail(?,?,?,?,?,?,?) }
+</procedure>
+<!-- 获取即将过期积分 -->	
+<resultMap id="reportMemberPointToclearResultMap" class="java.util.HashMap">
+ 	<result property="point_toclear" column="point_toclear"/>
+</resultMap>
+ <parameterMap id="reportMemberPointToclearParamter" class="java.util.HashMap" >
+	<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="pointUseType" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+</parameterMap>
+<procedure id="getReportMemberPointToclear" parameterMap="reportMemberPointToclearParamter"  resultMap="reportMemberPointToclearResultMap">
+	{call dbo.WPM_Report_member_point_toclear(?,?) }
+</procedure>
+<!-- 获取可用积分 -->
+<resultMap id="reportMemberResourpointResultMap" class="java.util.HashMap">
+ 	<result property="ChangablePoint" column="ChangablePoint"/>
+</resultMap>
+ <parameterMap id="reportMemberResourpointParamter" class="java.util.HashMap" >
+	<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="txdDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="pointUseType" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+</parameterMap>
+<procedure id="getReportMemberResourpoint" parameterMap="reportMemberResourpointParamter"  resultMap="reportMemberResourpointResultMap">
+	{call dbo.WPM_Report_member_rescurpoint(?,?,?) }
+</procedure>
+
+<!-- 获取会员消费信息 -->
+<resultMap id="reportMemberReportSaleAmount2ResultMap" class="java.util.HashMap">
+ 	<result property="txddate" column="txddate"/>
+ 	<result property="countername" column="countername"/>
+ 	<result property="chinesename" column="chinesename"/>
+ 	<result property="price" column="price"/>
+ 	<result property="txdtype" column="txdtype"/>
+ 	<result property="barcode" column="barcode"/>
+ 	<result property="unitcode" column="unitcode"/>
+ 	<result property="dealingType" column="dealingType"/>
+ 	<result property="producttype" column="producttype"/>
+</resultMap>
+ <parameterMap id="reportMemberReportSaleAmount2Paramter" class="java.util.HashMap" >
+	<parameter property="memCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="monthAgo" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+	<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+</parameterMap>
+<procedure id="getReportMemberReportSaleAmount2" parameterMap="reportMemberReportSaleAmount2Paramter"  resultMap="reportMemberReportSaleAmount2ResultMap">
+	{call dbo.WPM_Report_memberReport_salesAmount2(?,?,?) }
+</procedure>
+
+<!--查询1本周，2本月，3下一月时间段内的会员信息  -->
+
+<resultMap id="reportMemberBirthdayResultMap" class="java.util.HashMap">
+ 	<result property="member_code" column="member_code"/>
+ 	<result property="mobile_phone" column="mobile_phone"/>
+ 	<result property="birthday" column="birthday"/>
+ 	<result property="name_cn" column="name_cn"/>
+ 	<result property="name_en" column="name_en"/>
+ 	<result property="sex" column="sex"/>
+ 	<result property="mail" column="mail"/>
+ 	<result property="province" column="province"/>
+ 	<result property="city" column="city"/>
+ 	<result property="countercode" column="countercode"/>
+ 	<result property="grant_time" column="grant_time"/>
+ 	<result property="memberLevelCode" column="memberLevelCode"/>
+</resultMap>
+ <parameterMap id="reportMemberBirthdayParamter" class="java.util.HashMap" >
+	<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+	<parameter property="status" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+	<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="type" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+</parameterMap>
+<procedure id="getReportMemberBirthday" parameterMap="reportMemberBirthdayParamter"  resultMap="reportMemberBirthdayResultMap">
+	{call dbo.WPM_Report_member_birthday(?,?,?,?) }
+</procedure>
+
+
+</sqlMap>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="login">
+
+	<select id="getDBByName" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	<![CDATA[ 
+		select
+			A.DataBaseName
+		from 
+			dbo.BIN_LoginConfig A 
+		where
+				(A.LonginName =#InputName# collate Chinese_PRC_CS_AI
+			OR A.LonginPhone=#InputName#
+			OR A.LonginEmail=#InputName#)
+			and A.ValidFlag = '1'
+	]]>
+	</select>
+
+</sqlMap>

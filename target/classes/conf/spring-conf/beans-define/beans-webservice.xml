@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" default-autowire="byName">
+   
+
+    
+	<!-- 会员信息-->
+	<bean id="memberInfo" class="com.zzz.testweb.business.resource.MemberInfo"/>
+	<bean id="memberInfoLogic" class="com.zzz.testweb.business.logic.MemberInfoLogic"/>
+	<bean id="memberInfoService" class="com.zzz.testweb.business.service.MemberInfoService"/>
+
+	<!-- 系统配置-->
+	<bean id="systemInfo" class="com.zzz.testweb.business.resource.SystemInfo"/>
+	<bean id="systemInfoLogic" class="com.zzz.testweb.business.logic.SystemInfoLogic"/>
+	<bean id="systemInfoService" class="com.zzz.testweb.business.service.SystemInfoService"/>
+	
+	<!-- 用户信息 -->
+	<bean id="userInfo" class="com.zzz.testweb.business.resource.UserInfo"  />
+	<bean id="userInfoLogic" class="com.zzz.testweb.business.logic.UserInfoLogic" />	
+	<bean id="userInfoService" class="com.zzz.testweb.business.service.UserInfoService"  />
+	
+</beans>  
+   
+   
+   
+ 

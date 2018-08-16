@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="SystemInfo">
+ 
+    <!-- 系统配置查询 -->
+   <resultMap id="systemResultMap" class="java.util.HashMap">
+        <result property="version_order" column="version_order"/>
+        <result property="version_name" column="version_name"/>
+        <result property="url" column="url"/>
+        <result property="remarks" column="remarks"/>
+		<result property="file_md5" column="file_md5"/>
+    </resultMap>
+    
+    <parameterMap id="systemParameters" class="java.util.HashMap">
+    	<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="systemType" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="imei" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    	<parameter property="currentVersion" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+    </parameterMap>   
+
+
+    <!-- app是否要更新 -->
+    <procedure id="checkVersionApp"  resultMap="systemResultMap"  parameterMap="systemParameters">	
+		{call dbo.WPM_check_versions_app(?,?,?,?,?)}
+	</procedure>
+
+	<!-- logo是否要更新 -->
+   <procedure id="checkVersionLogo"  resultMap="systemResultMap"  parameterMap="systemParameters">	
+		{call dbo.WPM_check_versions_logo(?,?,?,?,?)}
+	</procedure>
+
+     <!-- db是否要更新 -->
+   <procedure id="checkVersionDb"  resultMap="systemResultMap"  parameterMap="systemParameters">	
+		{call dbo.WPM_check_versions_db(?,?,?,?,?)}
+	</procedure>
+
+
+    <!-- 系统配置查询 app logo  db -->
+   <resultMap id="systemTypeResultMap" class="java.util.HashMap">
+        <result property="type" column="type"/>
+		<result property="version_order" column="version_order"/>
+		<result property="version_name" column="version_name"/>
+		<result property="url" column="url"/>
+		<result property="remarks" column="remarks"/>
+		<result property="file_md5" column="file_md5"/>
+    </resultMap>
+    
+    <parameterMap id="systemTypeParameters" class="java.util.HashMap">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="systemType" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="imei" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="currentVersionApp" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="currentVersionDb" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="currentVersionLogo" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+    </parameterMap>   
+
+ <!--app logo  db  是否要更新-->
+ <procedure id="checkVersionAllType"  resultMap="systemTypeResultMap"  parameterMap="systemTypeParameters">	
+		{call dbo.WPM_check_versions_all_type(?,?,?,?,?,?,?)}
+ </procedure>
+ 
+ <!--获取后台当前品牌  ，各表数据同步版本信息-->
+ <resultMap id="systemVersionDbResultMap" class="java.util.HashMap">
+ 	<result property="id" column="id"/>
+ 	<result property="brand_code" column="brand_code"/>
+ 	<result property="db_table_name" column="db_table_name"/>
+ 	<result property="db_table_ext" column="db_table_ext"/>
+ 	<result property="status" column="status"/>
+ 	<result property="version" column="version"/>
+ 	<result property="group_code" column="group_code"/>
+ 	<result property="type" column="type"/>
+ 	<result property="version_update" column="version_update"/>
+ 	<result property="version_order" column="version_order"/>
+ 	<result property="remarks" column="remarks"/>
+ 	<result property="created" column="created"  />
+ 	<result property="modified" column="modified" />
+ </resultMap>
+ 
+  <!--获取配置表数据-->
+ <resultMap id="systemConfigsDbResultMap" class="java.util.HashMap">
+ 	<result property="id" column="id"/>
+ 	<result property="code" column="code"/>
+ 	<result property="brand_id" column="brand_id"/>
+ 	<result property="brand_name" column="brand_name"/>
+ 	<result property="type" column="type"/>
+ 	<result property="note" column="note"/>
+ 	<result property="content" column="content"/>
+ 	<result property="created" column="created" />
+ 	<result property="modified" column="modified" />
+ </resultMap>
+ 
+ 
+  <parameterMap id="systemConfigsVersionParameters" class="java.util.HashMap">
+		<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="systemType" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="imei" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+  </parameterMap>   
+  
+ <!-- 获取后台当前品牌，各表数据同步版本信息 -->
+<procedure id="getVersionDb"  resultMap="systemVersionDbResultMap" parameterMap="systemConfigsVersionParameters">
+       {call dbo.WPM_get_db_versions(?,?,?,?)}
+</procedure>
+
+<!-- 获取配置表数据  -->
+<procedure id="getConfigsDb"  resultMap="systemConfigsDbResultMap" parameterMap="systemConfigsVersionParameters">
+       {call dbo.WPM_get_db_configs(?,?,?,?)}
+</procedure>
+
+<!---数据同步成功后，回写各终端数据版本记录表  -->
+<parameterMap  id="systemUpdateVersionDbParameters"   class="java.util.HashMap">
+	    <parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="systemType" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="imei" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="tableName" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="tableExt" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="currentVersion" jdbcType="VARCHAR" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="rtn" jdbcType="INTEGER" javaType="java.lang.Integer" mode="OUT"/>
+</parameterMap>
+
+<!--  数据同步成功后，回写各终端数据版本记录表 -->
+<procedure id="updateVersionDb"   parameterMap="systemUpdateVersionDbParameters">
+	{call dbo.WPM_update_db_versions(?,?,?,?,?,?,?,?)}
+</procedure>
+
+
+<!-- 回写终端信息表 -->
+<parameterMap  id="systemUpdateDbMachineinfoParameters"   class="java.util.HashMap">
+	    <parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="systemType" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="imei" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="currentVersionApp" jdbcType="VARCHAR" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="currentVersionDb" jdbcType="VARCHAR" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="currentVersionLogo" jdbcType="VARCHAR" javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="rtn" jdbcType="INTEGER" javaType="java.lang.Integer" mode="OUT"/>
+</parameterMap>
+<!-- 回写终端信息表 -->
+<procedure id="updateDbMachineinfo"   parameterMap="systemUpdateDbMachineinfoParameters">
+	{call dbo.WPM_update_db_machineinfo(?,?,?,?,?,?,?,?)}
+</procedure>
+
+
+<!-- 获取服务器时间 -->
+<resultMap id="getServerDateResultMap" class="java.util.HashMap" >
+	<result property="local_date" column="local_date"/>
+	<result property="utc_date" column="utc_date"/>
+</resultMap>
+
+<parameterMap id="getServerDateParameters" class="java.util.HashMap" >
+	<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+	<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+</parameterMap>
+<!-- 获取服务器时间 -->
+<procedure id="getServerDate" parameterMap="getServerDateParameters" resultMap="getServerDateResultMap">
+	{call dbo.WPM_get_server_date(?,?)}
+</procedure>
+
+
+<!-- 获取品牌Id -->
+<parameterMap id="getBrandIdParamter" class="java.util.HashMap" >
+	<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="OUT"/>
+</parameterMap>
+
+<procedure id="GetBrandId" parameterMap="getBrandIdParamter">
+	{call dbo.WPM_get_brandId(?) }
+</procedure>
+
+<!-- -查询当前品牌的加密KEY值 -->
+<select id="getBrandKey" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+<![CDATA[ 
+	select content
+	from   brand.dbo.[WP3PCSA_configs]
+	where  app_type = 'MPOS' 
+		   and code = 'PARAMETER_KEYWORD'
+		   and brand_code = #brand_code#
+]]>
+</select>
+
+<!-- 获取品牌代号 -->
+<select id="getBrandCode" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+<![CDATA[ 
+	select abbr 
+	from brand.dbo.[brandinfo]
+	where brandId = #brandId#
+]]>
+</select>
+
+<!-- 根据mpos_id查询连接数据库信息 -->
+<select id="getBrandDataBase" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+<![CDATA[ 
+	select datasourcename
+	from  dbo.[brandinfo] 
+	where mpos_id=#mpos_id#
+]]>
+</select>
+
+<!-- 获取数据源信息 -->
+<select id="getDataSource" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+<![CDATA[ 
+	select datasourcename  
+	from  dbo.[brandinfo] 
+]]>
+</select>
+
+<!-- 下载数据，菜单表 -->
+<resultMap id="dbMenusResultMap" class="java.util.HashMap">
+ 	<result property="id" column="id"/>
+ 	<result property="code" column="code"/>
+ 	<result property="type" column="type"/>
+ 	<result property="link" column="link"/>
+ 	<result property="remarks" column="remarks"/>
+ 	<result property="isleaf" column="isleaf"/>
+ 	<result property="app_type" column="app_type"/>
+ 	<result property="created" column="created" />
+ 	<result property="modified" column="modified" />
+</resultMap>
+ 
+<procedure id="getDbMenus" parameterMap="systemConfigsVersionParameters"  resultMap="dbMenusResultMap">
+	{call dbo.WPM_get_db_menus(?,?,?,?) }
+</procedure>
+
+<!-- 下载数据，菜单品牌表 -->
+<resultMap id="dbMenuBrandsResultMap" class="java.util.HashMap">
+ 	<result property="id" column="id"/>
+ 	<result property="menu_id" column="menu_id"/>
+ 	<result property="brand_id" column="brand_id"/>
+ 	<result property="menu_code" column="menu_code"/>
+ 	<result property="name_cn" column="name_cn"/>
+ 	<result property="name_en" column="name_en"/>
+ 	<result property="container_id" column="container_id"/>
+ 	<result property="parent_id" column="parent_id" />
+ 	<result property="menu_order" column="menu_order" />
+ 	<result property="status" column="status" />
+ 	<result property="menu_value" column="menu_value" />
+ 	<result property="created" column="created" />
+ 	<result property="modified" column="modified" />
+</resultMap>
+ 
+<procedure id="getDbMenuBrands" parameterMap="systemConfigsVersionParameters"  resultMap="dbMenuBrandsResultMap">
+	{call dbo.WPM_get_db_menu_brands(?,?,?,?) }
+</procedure>
+
+<!--获取支付类型表数据  -->
+<resultMap id="getDbPaymentTypesResultMap" class="java.util.HashMap" >
+	<result property="brand_id" column="brand_id"/>
+	<result property="counter_id" column="counter_id"/>
+	<result property="payment_type" column="payment_type"/>
+	<result property="payment_type_name" column="payment_type_name"/>
+	<result property="status" column="status"/>
+	<result property="status_modifytime" column="status_modifytime"/>
+	<result property="order" column="order"/>
+	<result property="puttime" column="puttime"/>
+	<result property="bak_int1" column="bak_int1"/>
+	<result property="bak_int2" column="bak_int2"/>
+	<result property="bak_char1" column="bak_char1"/>
+	<result property="bak_char2" column="bak_char2"/>
+</resultMap>
+
+<parameterMap id="getDbPaymentTypesParameters" class="java.util.HashMap" >
+	<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+	<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+</parameterMap>
+<procedure id="getDbPaymentTypes" parameterMap="getDbPaymentTypesParameters" resultMap="getDbPaymentTypesResultMap">
+	{call WPM_get_db_payment_types(?,?)}
+</procedure>
+
+<!-- 下载brands表 -->
+<resultMap id="dbBrandCountersResultMap" class="java.util.HashMap" >
+	<result property="brand_code" column="brand_code"/>
+	<result property="name_cn" column="name_cn"/>
+	<result property="name_en" column="name_en"/>
+	<result property="abbr" column="abbr"/>
+	<result property="mpos_id" column="mpos_id"/>
+	<result property="counter_code" column="counter_code"/>
+	<result property="counter_name_cn" column="counter_name_cn"/>
+	<result property="counter_name_en" column="counter_name_en"/>
+	<result property="counter_address" column="counter_address"/>
+	<result property="counter_telephone" column="counter_telephone"/>
+	<result property="counter_end_time" column="counter_end_time"/>
+	<result property="status" column="status"/>
+</resultMap>
+
+<parameterMap id="dbBrandCountersParameters" class="java.util.HashMap" >
+	<parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Integer" mode="IN"/>
+	<parameter property="subBrand" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+	<parameter property="counterCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+</parameterMap>
+<procedure id="getDbBrandCounters" parameterMap="dbBrandCountersParameters" resultMap="dbBrandCountersResultMap">
+	{call WPM_get_db_brand_counters(?,?,?)}
+</procedure>
+
+</sqlMap>
